@@ -3,6 +3,9 @@ import Thread from "../models/Thread.js";
 import getOpenAIAPIResponse from "../utils/openai.js";
 
 const router = express.Router();
+import auth from "../middleware/authMiddleware.js";
+
+
 
 //test
 router.post("/test", async(req, res) => {
@@ -67,8 +70,9 @@ router.delete("/thread/:threadId", async (req, res) => {
     }
 });
 
-router.post("/chat", async(req, res) => {
+router.post("/chat",auth, async(req, res) => {
     const {threadId, message} = req.body;
+    const userId = req.user.id;
 
     if(!threadId || !message) {
         res.status(400).json({error: "missing required fields"});
