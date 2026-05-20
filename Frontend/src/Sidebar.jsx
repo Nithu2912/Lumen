@@ -7,7 +7,7 @@ import { useAuth } from "./context/AuthContext";
 
 
 function Sidebar(){
-    const { token } = useAuth();
+    const { token,user } = useAuth();
     const {allThreads,setAllThreads,currThreadId,setNewChat,setPrompt,setReply,setCurrThreadId,setPrevChats}=useContext(MyContext);
 
     const getAllThreads=async()=>{
@@ -59,9 +59,10 @@ function Sidebar(){
 
     const deleteThread=async(threadId)=>{
         try{
-            const response=await fetch(`http://localhost:8080/api/thread/${threadId}`,{method:"DELETE"},{
-                headers: { "Authorization": `Bearer ${token}` }
-            });
+            const response = await fetch(`http://localhost:8080/api/thread/${threadId}`, {
+            method: "DELETE",
+            headers: { "Authorization": `Bearer ${token}` }
+        });
             const res=await response.json();
             console.log(res);
 
@@ -88,6 +89,7 @@ function Sidebar(){
                  <span><i className="fa-solid fa-pen-to-square"></i></span>
             </button>
 
+            <div className="section-label">TODAY</div>
             {/* history */}
             <ul className="history">
              {
@@ -111,7 +113,7 @@ function Sidebar(){
 
             {/* Sign */}
             <div className='sign'>
-                <p>By Nithu &hearts;</p>
+                    <p>By {user?.name || "User"} ♥</p>
             </div>
         </section>
     )

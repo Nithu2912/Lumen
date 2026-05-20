@@ -8,7 +8,7 @@ import { useAuth } from "./context/AuthContext";
 
 
 function ChatWindow() {
-    const { token, logout } = useAuth();
+    const { token, logout,user } = useAuth();
     const {prompt, setPrompt, reply, setReply, currThreadId, setPrevChats, setNewChat} = useContext(MyContext);
     const [loading, setLoading] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
@@ -68,7 +68,7 @@ function ChatWindow() {
             <div className="navbar">
                 <span>Lumen <i className="fa-solid fa-chevron-down"></i></span>
                 <div className="userIconDiv" onClick={handleProfileClick}>
-                    <span className="userIcon"><i className="fa-solid fa-user"></i></span>
+                    <span className="userIcon">{user?.name?.charAt(0).toUpperCase()}</span>
                 </div>
             </div>
             {
@@ -79,9 +79,10 @@ function ChatWindow() {
                     <div className="dropDownItem" onClick={logout}><i class="fa-solid fa-arrow-right-from-bracket"></i> Log out</div>
                 </div>
             }
-            <Chat></Chat>
-
-                <ScaleLoader color="#fff" loading={loading}></ScaleLoader>
+          <div style={{ flex: 1, overflowY: "auto",overflowX: "hidden", display: "flex", flexDirection: "column", alignItems: "center",width: "100%" }}>
+    <Chat />
+    <ScaleLoader color="#5a7a5c" loading={loading} />
+</div>
             
             <div className="chatInput">
                 <div className="inputBox">

@@ -19,7 +19,7 @@ export default function Register() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message);
-      login(data.token);
+      login(data.token, data.user);
       navigate("/");
     } catch (err) {
       setError(err.message);
@@ -27,48 +27,158 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-      <div className="bg-gray-900 p-8 rounded-2xl w-full max-w-md shadow-xl">
-        <h1 className="text-white text-2xl font-bold mb-6">Create an account</h1>
+    <div style={{
+      minHeight: "100vh",
+      background: "#f5f0e8",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      fontFamily: "'DM Sans', sans-serif",
+    }}>
 
-        {error && <p className="text-red-400 text-sm mb-4">{error}</p>}
+      {/* Logo */}
+      <div style={{ marginBottom: "32px", textAlign: "center" }}>
+        <h1 style={{
+          fontFamily: "'DM Serif Display', serif",
+          fontSize: "32px",
+          color: "#2d3a2e",
+          letterSpacing: "-1px",
+          margin: 0,
+        }}>
+          <span style={{ color: "#5a7a5c", fontStyle: "italic" }}>Lumen</span>
+        </h1>
+        <p style={{ fontSize: "13px", color: "#a09880", marginTop: "4px" }}>your calm AI companion 🍵</p>
+      </div>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <input
-            type="text"
-            placeholder="Name"
-            className="bg-gray-800 text-white rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
-            value={form.name}
-            onChange={(e) => setForm({ ...form, name: e.target.value })}
-            required
-          />
-          <input
-            type="email"
-            placeholder="Email"
-            className="bg-gray-800 text-white rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
-            value={form.email}
-            onChange={(e) => setForm({ ...form, email: e.target.value })}
-            required
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            className="bg-gray-800 text-white rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
-            value={form.password}
-            onChange={(e) => setForm({ ...form, password: e.target.value })}
-            required
-          />
+      {/* Card */}
+      <div style={{
+        background: "#fff8f0",
+        border: "1px solid #ddd5c0",
+        borderRadius: "20px",
+        padding: "40px",
+        width: "100%",
+        maxWidth: "400px",
+        boxShadow: "0 4px 24px rgba(0,0,0,0.06)",
+      }}>
+        <h2 style={{
+          fontFamily: "'DM Serif Display', serif",
+          fontSize: "24px",
+          color: "#2d3a2e",
+          marginBottom: "6px",
+          fontWeight: "400",
+        }}>Create an account</h2>
+        <p style={{ fontSize: "13px", color: "#a09880", marginBottom: "28px" }}>Join Lumen and start chatting</p>
+
+        {error && (
+          <div style={{
+            background: "#fef2f2",
+            border: "1px solid #fecaca",
+            borderRadius: "10px",
+            padding: "10px 14px",
+            marginBottom: "16px",
+            fontSize: "12px",
+            color: "#b91c1c",
+          }}>{error}</div>
+        )}
+
+        <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+            <label style={{ fontSize: "11px", color: "#8a8070", fontWeight: "600", letterSpacing: "0.05em" }}>NAME</label>
+            <input
+              type="text"
+              placeholder="Your name"
+              value={form.name}
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
+              required
+              style={{
+                padding: "12px 16px",
+                border: "1.5px solid #ddd5c0",
+                borderRadius: "12px",
+                background: "#f5f0e8",
+                fontSize: "13px",
+                color: "#2d3a2e",
+                outline: "none",
+                fontFamily: "'DM Sans', sans-serif",
+              }}
+              onFocus={e => e.target.style.borderColor = "#5a7a5c"}
+              onBlur={e => e.target.style.borderColor = "#ddd5c0"}
+            />
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+            <label style={{ fontSize: "11px", color: "#8a8070", fontWeight: "600", letterSpacing: "0.05em" }}>EMAIL</label>
+            <input
+              type="email"
+              placeholder="you@example.com"
+              value={form.email}
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
+              required
+              style={{
+                padding: "12px 16px",
+                border: "1.5px solid #ddd5c0",
+                borderRadius: "12px",
+                background: "#f5f0e8",
+                fontSize: "13px",
+                color: "#2d3a2e",
+                outline: "none",
+                fontFamily: "'DM Sans', sans-serif",
+              }}
+              onFocus={e => e.target.style.borderColor = "#5a7a5c"}
+              onBlur={e => e.target.style.borderColor = "#ddd5c0"}
+            />
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+            <label style={{ fontSize: "11px", color: "#8a8070", fontWeight: "600", letterSpacing: "0.05em" }}>PASSWORD</label>
+            <input
+              type="password"
+              placeholder="••••••••"
+              value={form.password}
+              onChange={(e) => setForm({ ...form, password: e.target.value })}
+              required
+              style={{
+                padding: "12px 16px",
+                border: "1.5px solid #ddd5c0",
+                borderRadius: "12px",
+                background: "#f5f0e8",
+                fontSize: "13px",
+                color: "#2d3a2e",
+                outline: "none",
+                fontFamily: "'DM Sans', sans-serif",
+              }}
+              onFocus={e => e.target.style.borderColor = "#5a7a5c"}
+              onBlur={e => e.target.style.borderColor = "#ddd5c0"}
+            />
+          </div>
+
           <button
             type="submit"
-            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition"
+            style={{
+              padding: "13px",
+              background: "#5a7a5c",
+              color: "#f5f0e8",
+              border: "none",
+              borderRadius: "12px",
+              fontSize: "13px",
+              fontWeight: "600",
+              cursor: "pointer",
+              fontFamily: "'DM Sans', sans-serif",
+              marginTop: "6px",
+              transition: "background 0.2s",
+            }}
+            onMouseEnter={e => e.target.style.background = "#4a6a4c"}
+            onMouseLeave={e => e.target.style.background = "#5a7a5c"}
           >
-            Register
+            Create account
           </button>
         </form>
 
-        <p className="text-gray-400 text-sm mt-4 text-center">
+        <p style={{ fontSize: "12px", color: "#a09880", textAlign: "center", marginTop: "20px" }}>
           Already have an account?{" "}
-          <Link to="/login" className="text-blue-400 hover:underline">Login</Link>
+          <Link to="/login" style={{ color: "#5a7a5c", fontWeight: "600", textDecoration: "none" }}>
+            Sign in
+          </Link>
         </p>
       </div>
     </div>
