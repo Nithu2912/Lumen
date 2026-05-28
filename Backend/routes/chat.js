@@ -29,7 +29,7 @@ router.get("/thread",auth, async(req, res) => {
         console.log("=== GET THREADS ===");
     console.log("req.user:", req.user);
 
-        const threads = await Thread.find({ userId: req.user.id });
+        const threads = await Thread.find({ userId: req.user.id }).sort({ updatedAt: -1 });
         console.log("threads found:", threads.length);
     console.log("thread userIds:", threads.map(t => t.userId));
 
